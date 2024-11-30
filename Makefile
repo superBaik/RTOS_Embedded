@@ -1,4 +1,4 @@
-ARCH = armv7 # 아키텍처 정보
+ARCH = armv7-a # 아키텍처 정보
 MCPU = cortex-a8 # cpu 정보 => 둘 다 39번줄에서 사용
 
 CC = arm-none-eabi-gcc
@@ -10,6 +10,8 @@ LINKER_SCRIPT = ./navilos2.ld # 링커스크립트의 이름
 
 ASM_SRCS = $(wildcard boot/*.S) # make의 빌트인 함수: "boot 디렉터리에서 .S는 전부 ASM_SRCS 변수에 값으로 넣으라", 즉 boot/Entry.S 저장
 ASM_OBJS = $(patsubst boot/%.S, build/%.o, $(ASM_SRCS)) # make의 빌트인 함수: "boot 디렉터리에서 .S를 찾아 전부 .o로 바꾸고 디렉터리도 build로 바꿔 ASM_OBJS 변수에 값으로 넣어라", 즉 build/Entry.o 저장
+
+INC_DIRS = include #wow....for using include 
 
 navilos = build/navilos.axf # 최종 ELF명
 navilos_bin = build/navilos.bin # 최종 바이너리 파일명
@@ -36,4 +38,4 @@ $(navilos): $(ASM_OBJS) $(LINKER_SCRIPT) # 링커로써, axf 파일 생성 및 b
 
 build/%.o: boot/%.S # 자동으로 *.S을 *.o로 컴파일
 	mkdir -p $(shell dirname $@)
-	$(AS) -march=$(ARCH) -mcpu=$(MCPU) -g -o $@ $<
+	$(CC) -march=$(ARCH) -mcpu=$(MCPU) -I $(INC_DIRS) -c -g -o $@ $<
