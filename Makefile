@@ -10,12 +10,12 @@ LINKER_SCRIPT = ./navilos.ld # 링커스크립트의 이름
 MAP_FILE = build/navilos.map
 
 ASM_SRCS = $(wildcard boot/*.S) # make의 빌트인 함수: "boot 디렉터리에서 .S는 전부 ASM_SRCS 변수에 값으로 넣으라", 즉 boot/Entry.S 저장
-ASM_OBJS = $(patsubst boot/%.S, build/%.o, $(ASM_SRCS)) # make의 빌트인 함수: "boot 디렉터리에서 .S를 찾아 전부 .o로 바꾸고 디렉터리도 build로 바꿔 ASM_OBJS 변수에 값으로 넣어라", 즉 build/Entry.o 저장
+ASM_OBJS = $(patsubst boot/%.S, build/%.os, $(ASM_SRCS)) # make의 빌트인 함수: "boot 디렉터리에서 .S를 찾아 전부 .o로 바꾸고 디렉터리도 build로 바꿔 ASM_OBJS 변수에 값으로 넣어라", 즉 build/Entry.o 저장
 
 C_SRCS = $(wildcard boot/*.c)
-c_OBJS = $(patsubst boot/%.c, build/%.o, $(C_SRCS))
+C_OBJS = $(patsubst boot/%.c, build/%.o, $(C_SRCS))
 
-INC_DIRS = include #wow....for using include 
+INC_DIRS = -I include #wow....for using include 
 
 navilos = build/navilos.axf # 최종 ELF명
 navilos_bin = build/navilos.bin # 최종 바이너리 파일명

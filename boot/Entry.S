@@ -1,4 +1,4 @@
-#include  "ARMv7AR.h"
+#include "ARMv7AR.h"
 #include "MemoryMap.h"
 
 .text
@@ -64,5 +64,8 @@
     	LDR sp, =USRSYS_STACK_TOP
 
 	BL main
+	dummy_handler:
+		B .
+
 .end
 
