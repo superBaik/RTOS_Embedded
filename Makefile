@@ -5,7 +5,7 @@ TARGET = rvpb
 
 CC = arm-none-eabi-gcc
 AS = arm-none-eabi-as
-LD = arm-none-eabi-ld
+LD = arm-none-eabi-gcc
 OC = arm-none-eabi-objcopy # => 모두 크로스컴파일러 실행파일의 이름, 일명 '툴체인'
 
 LINKER_SCRIPT = ./navilos.ld # 링커스크립트의 이름
@@ -30,6 +30,8 @@ INC_DIRS  = -I include 			\
             
 CFLAGS = -c -g -std=c11 
 
+LDFLAGS = -nostartfiles -nostdlib -nodefaultlibs -static -lgcc
+
 navilos = build/navilos.axf # 최종 ELF명
 navilos_bin = build/navilos.bin # 최종 바이너리 파일명
 
@@ -49,7 +51,7 @@ gdb: # 마찬가지로 gdb 실행 자동화
 	arm-none-eabi-gdb
 
 $(navilos): $(ASM_OBJS) $(C_OBJS) $(LINKER_SCRIPT) # 링커로써, axf 파일 생성 및 bin 생성
-	$(LD) -n -T $(LINKER_SCRIPT) -o $(navilos) $(ASM_OBJS) $(C_OBJS) -Map=$(MAP_FILE)
+	$(LD) -n -T $(LINKER_SCRIPT) -o $(navilos) $(ASM_OBJS) $(C_OBJS) -Wl,-Map=$(MAP_FILE) $(LDFLAGS)
 	$(OC) -O binary $(navilos) $(navilos_bin)
 
 build/%.os: %.S

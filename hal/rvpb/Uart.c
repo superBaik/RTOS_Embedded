@@ -33,7 +33,7 @@ void Hal_uart_put_char(uint8_t ch)
 }
 
 
-/*
+
 uint8_t Hal_uart_get_char(void)
 {
     uint32_t data;
@@ -53,6 +53,7 @@ uint8_t Hal_uart_get_char(void)
     return (uint8_t)(data & 0xFF);
 }
 
+/*
 static void interrupt_handler(void)
 {
     uint8_t ch = Hal_uart_get_char();
